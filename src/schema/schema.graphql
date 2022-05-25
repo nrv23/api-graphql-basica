@@ -2,4 +2,43 @@ type Query {
   hello: String!
   helloWithName(name: String): String!
   peopleNumber: Int!
+  booksList: Result  # [Book!]! # una lista de libros donde no permite datos nulos
+  peopleList: [People!]!
+  #elementos seleccionados
+  getBook(id: ID!): Result # Book! #el parametro de entrada y el valor de salida son obligatorios
+  getPerson(id: ID!): People!
+}
+
+#informacion de los libros
+type Book {
+  id: ID!
+  title: String!
+  isbn: String!
+  pageCount: Int!
+  publishedDate: String
+  thumbnailUrl: String
+  shortDescription: String
+  longDescription: String
+  status: String!
+  authors: [String!]! #indica que va devolver un array de de tipo string donde no pueden existir datos nulos
+}
+
+#informacion de las personas
+type People {
+  id: ID!
+  name: String!
+  email: String!
+  website: String
+  github: String
+  twitter: String
+  books: [String!]!
+}
+
+#definir resutlado con mas de detalle
+
+type Result {
+  status: Boolean!
+  message: String!
+  list: [Book!]
+  item: Book
 }
