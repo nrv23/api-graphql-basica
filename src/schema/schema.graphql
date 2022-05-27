@@ -3,10 +3,12 @@ type Query {
   helloWithName(name: String): String!
   peopleNumber: Int!
   booksList: Result  # [Book!]! # una lista de libros donde no permite datos nulos
-  peopleList: [People!]!
+  peopleList: Result
   #elementos seleccionados
   getBook(id: ID!): Result # Book! #el parametro de entrada y el valor de salida son obligatorios
-  getPerson(id: ID!): People!
+  getPerson(id: ID!): Result # se cambia el tipo de dato a Result para que trabaje con el mismo tipo de dato
+  # que Book, como result devuelve datos de tipo union, el resultado puede ser Book o People dependiendo de lo 
+  # que se consulte
 }
 
 #informacion de los libros
@@ -21,6 +23,8 @@ type Book {
   longDescription: String
   status: String!
   authors: [String!]! #indica que va devolver un array de de tipo string donde no pueden existir datos nulos
+
+  byPeopleBuy: [People]
 }
 
 #informacion de las personas
@@ -32,6 +36,9 @@ type People {
   github: String
   twitter: String
   books: [String!]!
+  #Libros que ha comprado la persona
+
+  booksBuy: [Book] # no va ser un dato que devuelve un valor requerido porque puede ser que una persona no ha comprado ningun libro
 }
 
 #definir resutlado con mas de detalle
@@ -39,6 +46,10 @@ type People {
 type Result {
   status: Boolean!
   message: String!
-  list: [Book!]
-  item: Book
+  list: [Data!] #Los campos list y item como estan tipados con un dato de tipo union, pueden devolver resultados de type Book o type People
+  item: Data
 }
+
+#tipo de dato union en graphql permite tipar de varias formas posibles un dato
+
+union Data = Book | People
