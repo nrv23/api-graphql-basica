@@ -29,6 +29,17 @@ const typesResolvers: IResolvers = {
       return data.books.filter((book) => root.books.indexOf(book.id) > -1); // busca que exista el id en alguno de los elementos del root.books
       // y que su resultado sea mayor a -1
     },
+    // Valores que son opcionales
+    website: (root: { website?: string }) => {
+      return !root.website ? "" : root.website;
+    },
+    github: (root: { github?: string }) => {
+      return !root.github ? "" : root.github;
+    },
+
+    twitter: (root: { twitter?: string }) => {
+      return !root.twitter ? "" : root.twitter;
+    },
   },
 
   Book: {

@@ -2,7 +2,6 @@ import { ApolloServer, gql } from "apollo-server-express";
 import compression from "compression";
 import express, { Application } from "express"; //es el tipo de aplicacion para express
 import { GraphQLSchema } from "graphql";
-import { makeExecutableSchema } from "@graphql-tools/schema";
 import { Server, createServer } from "http";
 
 class GraphQLServer {
@@ -28,7 +27,7 @@ class GraphQLServer {
     this.configRoutes();
   }
 
-  private configExpress() {
+  private configExpress(): void {
     this.app = express();
     this.app.use(compression());
     this.httpServer = createServer(this.app);
@@ -64,7 +63,7 @@ class GraphQLServer {
     }
   }
 
-  private configRoutes() {
+  private configRoutes(): void {
     this.app.get("/hello", (_, res) => {
       res.json({ response: "Bienvenid@ al proyecto" });
     });
