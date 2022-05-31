@@ -78,7 +78,41 @@ const mutationResolvers: IResolvers = {
                 message: `El libro ${args.book.title} se ha actualizado correctamente`,
                 item: found
             }
-        } 
+        } ,
+        deleteBook: (_: void, args: {id: string}):{
+            status: boolean,
+            message: string,
+            item?: IBook // No siempre se va devolver un item de tipo IBook porque pueden pasar errores
+        } => {
+
+            let found = null;
+            for (let i = 0; i < data.books.length; i++) {
+              
+                if(data.books[i].id === args.id) {
+                    found = data.books[i];
+                    //delete data.books[i]; // borrar el libro
+                break;// evitar que itere en todo el array cuando encuentre el objeto
+              } 
+            }
+
+            if(!found) {
+                return  {
+                    status: false,
+                    message: `Èl libro con ID ${args.id} no existe`
+                }
+            }
+
+            data.books = data.books.filter(
+
+                (value) => value.id !== args.id
+            )           
+
+            return  {
+                status: true,
+                message: "Se ha borrado el libro",
+                item: found
+            }
+        }
     }
 }
 

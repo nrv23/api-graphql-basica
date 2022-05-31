@@ -3,6 +3,8 @@ import compression from "compression";
 import express, { Application } from "express"; //es el tipo de aplicacion para express
 import { GraphQLSchema } from "graphql";
 import { Server, createServer } from "http";
+// configurar la profundidad de las consultas en graphql para evitar consultas maliciosas o que boten el servidor
+import depthLimit from 'graphql-depth-limit';
 
 class GraphQLServer {
   //propiedades
@@ -43,8 +45,34 @@ class GraphQLServer {
       const apolloServer = new ApolloServer({
         schema:this.schema,
         introspection: true,
+        validationRules: [depthLimit(3)]
       });
+      //validationRules: [depthLimit(10)] esta validacion indica hasta cual nivel de profundidad es permitido consultar
+      // por ejemplo en el caso de la api, tiene 3 niveles, y podria limitar incluso al nivel 1 o 2. Limitando el 
+      // nivel de profundidad se evita que consulte niveles que no existen en la api
+      /*
+        query Query {
+        booksList {
+          list {
+            ... on Book {
+              id
+              title
+              isbn
+              pageCount
+              publishedDate
+              thumbnailUrl
+              shortDescription
+              longDescription
+              status
+              authors
+            }
+          }
+          message
+          status
+        }
+      }
 
+      */
       await apolloServer.start();
 
       // configurar el servidor apollo server
