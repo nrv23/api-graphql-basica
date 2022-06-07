@@ -25,14 +25,14 @@ const mutationResolvers: IResolvers = {
 
             const found = data.books.filter(
                 value => value.title === args.book.title 
-            )[0]
+            )[0];
 
             if(found) {
 
                 return {
                     message: `El libro ${args.book.title} ya existe`,
                     status: false
-                }
+                };
             }
 
             const id = +data.books[data.books.length - 1].id + 1; // al agregar el simbolo mas a un string de numeros,
@@ -47,7 +47,7 @@ const mutationResolvers: IResolvers = {
                 status: true,
                 message: "Nuevo libro agregado correctamente",
                 item: args.book
-            }
+            };
         },
 
         updateBook: (_: void, args: {book: IBook}):{
@@ -70,7 +70,7 @@ const mutationResolvers: IResolvers = {
                 return {
                     message: `Está intentando actualizar un libro que no existe`,
                     status: false
-                }
+                };
             }
 
             return {
@@ -78,7 +78,7 @@ const mutationResolvers: IResolvers = {
                 status: true,
                 message: `El libro ${args.book.title} se ha actualizado correctamente`,
                 item: found
-            }
+            };
         } ,
         deleteBook: (_: void, args: {id: string}):{
             status: boolean,
@@ -100,19 +100,19 @@ const mutationResolvers: IResolvers = {
                 return  {
                     status: false,
                     message: `Èl libro con ID ${args.id} no existe`
-                }
+                };
             }
 
             data.books = data.books.filter(
 
                 (value) => value.id !== args.id
-            )           
+            );           
 
             return  {
                 status: true,
                 message: "Se ha borrado el libro",
                 item: found
-            }
+            };
         },
 
         // mutations para modulo people
@@ -134,7 +134,7 @@ const mutationResolvers: IResolvers = {
                 return  {
                     status: false,
                     message: `La persona con nombre ${args.person.name} ya existe`
-                }
+                };
             }
 
             
@@ -149,7 +149,7 @@ const mutationResolvers: IResolvers = {
                 status: true,
                 message: "Se ha agregado correctamente",
                 item: args.person
-            }
+            };
         },
         updatePerson: (_: void, args: {person: IPeople}): {
             status: boolean,
@@ -170,14 +170,14 @@ const mutationResolvers: IResolvers = {
                 return  {
                     status: false,
                     message: `La persona con id ${args.person.id} no existe`
-                }
+                };
             }
             
             return {
                 status: true,
                 message: "Se ha actualizado correctamente",
                 item: found
-            }
+            };
         },
 
         deletePerson: (_: void, args: {id: string}): {
@@ -194,20 +194,25 @@ const mutationResolvers: IResolvers = {
             if(deleted.length > 0 && deleted.length < data.people.length) {
 
                 data.people = deleted;
-                
+
                 return {
                     status: true,
                     message: "Se ha borrado correctamente"
-                }
+                };
             } else {
 
                 return {
                     status: false,
                     message: `No se encontró una persona con el id ${args.id}`
-                }
+                };
             }
         }
     }
-}
+};
 
 export default mutationResolvers;
+
+/*
+    Todas las peticiones de tipo graphql se trabajan como verbos de tipo post. Siempre se va enviar un body 
+    para eliminar, obtener, actualizar o agregar datos en la api
+*/

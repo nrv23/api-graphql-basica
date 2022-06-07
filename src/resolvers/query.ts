@@ -9,12 +9,12 @@ const queryResolvers: IResolvers = {
     helloWithName: (
       _: void,
       args: { name: string },
-      context: any,
-      info: object
+      context: unknown,
+      info: unknown
     ): string => {
       // argumentos
       /*
-            el objeto args son los parametros que se envian,
+            el objeto args son los parametros que se reciben,
             contexto es el contexto del resolver,
             info, la informacion que puede ser compartida
         */

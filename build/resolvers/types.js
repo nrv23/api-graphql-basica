@@ -19,6 +19,15 @@ const typesResolvers = {
         booksBuy: (root) => {
             return data_1.default.books.filter((book) => root.books.indexOf(book.id) > -1);
         },
+        website: (root) => {
+            return !root.website ? "" : root.website;
+        },
+        github: (root) => {
+            return !root.github ? "" : root.github;
+        },
+        twitter: (root) => {
+            return !root.twitter ? "" : root.twitter;
+        },
     },
     Book: {
         byPeopleBuy: (root) => {

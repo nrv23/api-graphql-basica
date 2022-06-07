@@ -16,6 +16,7 @@ const apollo_server_express_1 = require("apollo-server-express");
 const compression_1 = __importDefault(require("compression"));
 const express_1 = __importDefault(require("express"));
 const http_1 = require("http");
+const graphql_depth_limit_1 = __importDefault(require("graphql-depth-limit"));
 class GraphQLServer {
     constructor(schema) {
         this.DEFAULT_PORT = 5000;
@@ -41,6 +42,7 @@ class GraphQLServer {
                 const apolloServer = new apollo_server_express_1.ApolloServer({
                     schema: this.schema,
                     introspection: true,
+                    validationRules: [(0, graphql_depth_limit_1.default)(3)]
                 });
                 yield apolloServer.start();
                 apolloServer.applyMiddleware({ app: this.app, cors: true });

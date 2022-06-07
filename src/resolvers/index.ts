@@ -7,7 +7,7 @@ const resolverIndex =  { // todos los resolvers se deben llamar aquí para centr
     ...queryResolvers,
     ...typesResolvers, // este resvolver lo uso para identificar datos de tipo union
     ...mutationResolvers
-}
+};
 
 
 export default resolverIndex;

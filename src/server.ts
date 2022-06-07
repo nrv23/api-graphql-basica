@@ -1,4 +1,4 @@
-import { ApolloServer, gql } from "apollo-server-express";
+import { ApolloServer } from "apollo-server-express";
 import compression from "compression";
 import express, { Application } from "express"; //es el tipo de aplicacion para express
 import { GraphQLSchema } from "graphql";
@@ -11,7 +11,7 @@ class GraphQLServer {
 
   private app!: Application;
   private httpServer!: Server;
-  private readonly DEFAULT_PORT: Number = 5000; // este campo se va leer solamente
+  private readonly DEFAULT_PORT: number = 5000; // este campo se va leer solamente
   private schema!: GraphQLSchema;
 
   constructor(schema: GraphQLSchema) {

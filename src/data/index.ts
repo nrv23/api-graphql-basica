@@ -5,6 +5,6 @@ const data = {
 
     books,
     people
-}
+};
 
 export default data;
