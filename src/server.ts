@@ -5,6 +5,8 @@ import { GraphQLSchema } from "graphql";
 import { Server, createServer } from "http";
 // configurar la profundidad de las consultas en graphql para evitar consultas maliciosas o que boten el servidor
 import depthLimit from 'graphql-depth-limit';
+import Database from "./config/database";
+import result from "./config/environments";
 
 class GraphQLServer {
   //propiedades
@@ -24,9 +26,17 @@ class GraphQLServer {
   }
 
   private init() {
+    this.initializeEnviroments();
     this.configExpress();
     this.configApolloServerExpress();
     this.configRoutes();
+  }
+
+  private initializeEnviroments(): void {
+    if (process.env.NODE_ENV !== "production") { // si el ambiente no es produccion use las variables del archivo .env
+      const envs = result;
+      console.log(envs);
+    }
   }
 
   private configExpress(): void {
@@ -38,14 +48,31 @@ class GraphQLServer {
 
   private async configApolloServerExpress() {
     try {
-     
-      // crear el ejecutable del esquema
+      
+      const database = new Database();
 
+      const db = await database.init();
+      // crear el ejecutable del esquema
+      const context = async ()  => { // compartir la conexion de la bd con la api de graphql
+        // obtener el token 
+  
+        // por el context recibe el token por las cabeceras, como si fuera una requeste http de tipo rest
+  
+       
+  
+  
+        
+        return {
+          db
+          
+        }
+       };
      
       const apolloServer = new ApolloServer({
         schema:this.schema,
         introspection: true,
-        validationRules: [depthLimit(3)]
+        validationRules: [depthLimit(3)],
+        context
       });
       //validationRules: [depthLimit(10)] esta validacion indica hasta cual nivel de profundidad es permitido consultar
       // por ejemplo en el caso de la api, tiene 3 niveles, y podria limitar incluso al nivel 1 o 2. Limitando el 
